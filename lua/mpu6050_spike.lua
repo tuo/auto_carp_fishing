@@ -102,9 +102,9 @@ function read_data()
     local data = I2C_Read(MPU6050SlaveAddress, MPU6050_REGISTER_ACCEL_XOUT_H, 14)
     --print("data", data)
     
---    local AccelX = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 1), 8), string.byte(data, 2))))
---    local AccelY = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 3), 8), string.byte(data, 4))))
---    local AccelZ = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 5), 8), string.byte(data, 6))))
+    local AccelX = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 1), 8), string.byte(data, 2))))
+    local AccelY = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 3), 8), string.byte(data, 4))))
+    local AccelZ = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 5), 8), string.byte(data, 6))))
     local Temperature = unsignTosigned16bit(bit.bor(bit.lshift(string.byte(data,7), 8), string.byte(data,8)))
     local GyroX = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 9), 8), string.byte(data, 10))))
     local GyroY = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 11), 8), string.byte(data, 12))))
@@ -112,7 +112,7 @@ function read_data()
     gyro_x = GyroX
     gyro_y = GyroY 
     gyro_z = GyroZ
-    return GyroX, GyroY, GyroZ
+    return AccelX, AccelY, AccelZ, Temperature
     
 
 
@@ -126,56 +126,43 @@ tmr.delay(10000)
 stableCount = 100
 for i=1,stableCount do 
     print(i) 
-    read_data()
-    gyro_x_cal = gyro_x_cal+ gyro_x;                                         
-    gyro_y_cal =  gyro_y_cal + gyro_y;                                       
-    gyro_z_cal = gyro_z_cal + gyro_z;
+    read_data()    
 end
 
-gyro_x_cal = gyro_x_cal/stableCount;                                              
-gyro_y_cal = gyro_y_cal/stableCount;                                              
-gyro_z_cal = gyro_z_cal/stableCount;  
-
-print(gyro_x_cal, gyro_y_cal, gyro_z_cal)
-
-tmr.delay(5000) 
-
 loop_timer = tmr.now()
-
--- 250hz = 4000 microseconds(us) = 4 milliseconds
-hertz = 250
-factor = 1.0/hertz/GyroScaleFactor
-sleep_time = 1000000/hertz
-gap = 250/hertz * 4
--- * 4
 
 count = 0
 while true do
 
-  count = count + 1
 
-  if count == 20 then
-    angle_roll_start = angle_roll
+    local AccelX, AccelY, AccelZ, Temperature = read_data()
+
+    print(AccelX/AccelScaleFactor, AccelY/AccelScaleFactor, AccelZ/AccelScaleFactor, Temperature )  
     
-  end
-
---  if count > 50 then
+--  count = count + 1
+--
+--  if count == 20 then
 --    angle_roll_start = angle_roll
---    tmr.delay(1000 * 1000 * 1000)
+--    
 --  end
-  
-  local x,y,z = read_data()
-
-  gyro_x = gyro_x - gyro_x_cal;      
-  gyro_y = gyro_y - gyro_y_cal;      
-  gyro_z = gyro_z - gyro_z_cal; 
-
-   -- Gyro angle calculations
-   -- 0.0000611 = 1 / (250Hz / 65.5)
-
-  
-  angle_pitch = angle_pitch + gyro_x * factor;                       
-  angle_roll = angle_roll + gyro_y * factor;                       
+--
+----  if count > 50 then
+----    angle_roll_start = angle_roll
+----    tmr.delay(1000 * 1000 * 1000)
+----  end
+--  
+--  local x,y,z = read_data()
+--
+--  gyro_x = gyro_x - gyro_x_cal;      
+--  gyro_y = gyro_y - gyro_y_cal;      
+--  gyro_z = gyro_z - gyro_z_cal; 
+--
+--   -- Gyro angle calculations
+--   -- 0.0000611 = 1 / (250Hz / 65.5)
+--
+--  
+--  angle_pitch = angle_pitch + gyro_x * factor;                       
+--  angle_roll = angle_roll + gyro_y * factor;                       
 
 --  if angle_roll_start == nil then
 --    print("angle_roll_start:", angle_roll_start)
@@ -192,13 +179,13 @@ while true do
 
   -- 250hz - 4000 microseconds(us)
   -- 1hz - 1000000 microseconds(us)
-  print(angle_roll, angle_roll_start)  
+--  print(angle_roll, angle_roll_start)  
 
-  if angle_roll_start ~= nil then
-    print("gap: ",(math.abs(angle_roll) - math.abs(angle_roll_start)))
-  end
+--  if angle_roll_start ~= nil then
+--    print("gap: ",(math.abs(angle_roll) - math.abs(angle_roll_start)))
+--  end
   
   --tmr.delay(4000)  
-  while  tmr.now() - loop_timer < sleep_time do end;
-  loop_timer = tmr.now()
+--  while  tmr.now() - loop_timer < sleep_time do end;
+--  loop_timer = tmr.now()
 end     

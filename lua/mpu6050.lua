@@ -1,9 +1,12 @@
-print(_VERSION)
+ 
 
 id  = 0 -- always 0
 
-scl = 6 -- set pin 6 as scl
-sda = 7 -- set pin 7 as sda
+
+id  = 0 -- always 0
+scl = 7 -- set pin 6 as scl
+sda = 6 -- set pin 7 as sda
+
 
 MPU6050SlaveAddress = 0x68
 
@@ -81,5 +84,32 @@ function MPU6050_Init() --configure MPU6050
     I2C_Write(MPU6050SlaveAddress, MPU6050_REGISTER_USER_CTRL, 0x00)
 end
 
-i2c.setup(id, sda, scl, i2c.FAST)   -- initialize i2c
+i2c.setup(id, sda, scl, i2c.SLOW)   -- initialize i2c
 MPU6050_Init()
+
+tmr.delay(1000)
+while true do   --read and print accelero, gyro and temperature value
+    
+    data = I2C_Read(MPU6050SlaveAddress, MPU6050_REGISTER_ACCEL_XOUT_H, 14)
+    
+    
+    AccelX = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 1), 8), string.byte(data, 2))))
+    AccelY = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 3), 8), string.byte(data, 4))))
+    AccelZ = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 5), 8), string.byte(data, 6))))
+    Temperature = unsignTosigned16bit(bit.bor(bit.lshift(string.byte(data,7), 8), string.byte(data,8)))
+    GyroX = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 9), 8), string.byte(data, 10))))
+    GyroY = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 11), 8), string.byte(data, 12))))
+    GyroZ = unsignTosigned16bit((bit.bor(bit.lshift(string.byte(data, 13), 8), string.byte(data, 14))))
+
+    AccelX = AccelX/AccelScaleFactor   -- divide each with their sensitivity scale factor
+    AccelY = AccelY/AccelScaleFactor
+    AccelZ = AccelZ/AccelScaleFactor
+    Temperature = Temperature/340.0+36.53-- temperature formula
+    GyroX = GyroX/GyroScaleFactor
+    GyroY = GyroY/GyroScaleFactor
+    GyroZ = GyroZ/GyroScaleFactor
+    
+    print(string.format("TUO-Ax:%.3g Ay:%.3g Az:%.3g T:%.3g Gx:%.3g Gy:%.3g Gz:%.3g",
+                        AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ))
+    tmr.delay(100000)   -- 100ms timer delay
+end
