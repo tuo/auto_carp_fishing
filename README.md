@@ -23,11 +23,20 @@ Test: sending http get request every 20 seconds, half charged battery last like 
 
 ### MPU6050
 
+// Select SDA and SCL pins for I2C communication
+
+const uint8_t scl = D7;
+const uint8_t sda = D6;
+
+
+Wire.begin(sda, scl);
+
 > sda = D6
 
 > scl = D7
 
 e.g: speed = i2c.setup(id, sda, scl, i2c.SLOW) 
+e.g  Wire.begin(sda, scl);
 
 > MCU   MPU6050
 

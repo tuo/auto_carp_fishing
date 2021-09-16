@@ -147,6 +147,7 @@ hertz = 250
 factor = 1.0/hertz/GyroScaleFactor
 sleep_time = 1000000/hertz
 gap = 250/hertz * 4
+-- * 4
 
 count = 0
 while true do
@@ -194,7 +195,7 @@ while true do
   print(angle_roll, angle_roll_start)  
 
   if angle_roll_start ~= nil then
-    print("gap: ",math.abs(angle_roll) - math.abs(angle_roll_start))
+    print("gap: ",(math.abs(angle_roll) - math.abs(angle_roll_start)))
   end
   
   --tmr.delay(4000)  
