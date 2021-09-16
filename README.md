@@ -27,7 +27,7 @@ Test: sending http get request every 20 seconds, half charged battery last like 
 
 > scl = D7
 
-> speed = i2c.setup(id, sda, scl, i2c.SLOW) 
+e.g: speed = i2c.setup(id, sda, scl, i2c.SLOW) 
 
 > MCU   MPU6050
 
