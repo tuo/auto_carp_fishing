@@ -31,6 +31,11 @@ const uint8_t MPU6050_REGISTER_SIGNAL_PATH_RESET  = 0x68;
 
 int16_t AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ;
 
+#define A 0.962
+#define dt 0.020
+double rollangle,pitchangle;
+double roll,pitch,yaw;
+
 void setup() {
   Serial.begin(115200);
   Wire.begin(sda, scl);
@@ -51,6 +56,13 @@ void loop() {
   Gy = (double)GyroY/GyroScaleFactor;
   Gz = (double)GyroZ/GyroScaleFactor;
 
+//  rollangle=atan2(Ay,Az)*180/PI; // FORMULA FOUND ON INTERNET
+//  pitchangle=atan2(Ax,sqrt(Ay*Ay+Az*Az))*180/PI; //FORMULA FOUND ON INTERNET
+//  
+//  //Using Complemetary Filter
+//  roll=A*(roll+Gx*dt)+(1-A)*rollangle;
+//  pitch=A*(pitch+Gy*dt)+(1-A)*pitchangle;
+  
   Serial.print("Ax: "); Serial.print(Ax);
   Serial.print(" Ay: "); Serial.print(Ay);
   Serial.print(" Az: "); Serial.print(Az);
@@ -58,8 +70,12 @@ void loop() {
   Serial.print(" Gx: "); Serial.print(Gx);
   Serial.print(" Gy: "); Serial.print(Gy);
   Serial.print(" Gz: "); Serial.println(Gz);
+//  Serial.print(" roll: "); Serial.print(roll);
+//  Serial.print(" pitch: "); Serial.println(pitch);
 
-  delay(100);
+
+
+//  delay(100); // 100ms
 }
 
 void I2C_Write(uint8_t deviceAddress, uint8_t regAddress, uint8_t data){
