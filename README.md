@@ -2,8 +2,11 @@
 
 
 > MCU  SIM800C
+
 > RX - TX  
+
 > TX - RX
+
 > GND <-> GND
 
 
@@ -21,13 +24,19 @@ Test: sending http get request every 20 seconds, half charged battery last like 
 ### MPU6050
 
 > sda = D6
+
 > scl = D7
+
 > speed = i2c.setup(id, sda, scl, i2c.SLOW) 
 
 > MCU   MPU6050
+
 > SDA <-> SDA
+
 > SCL <-> SCL 
+
 > 3V  <-> vcc
+
 > GND <-> GND
 
 正
