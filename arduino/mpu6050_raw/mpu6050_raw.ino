@@ -2,6 +2,8 @@
 
 // https://stackoverflow.com/questions/61262274/modify-arduino-code-to-work-with-nodemcu-esp-12e
 
+
+// - ax from 0.90 - 0.70  偏移至少0.2以上
 // MPU6050 Slave Device Address
 const uint8_t MPU6050SlaveAddress = 0x68;
 
