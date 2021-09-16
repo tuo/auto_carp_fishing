@@ -8,7 +8,7 @@ end
 
 if not s then 
     print("\n"..tostring(tmr.now())..": initilized su\n");
-    s = softuart.setup(9600, 2, 3)
+    s = softuart.setup(115200, 2, 3)
     -- Set callback to run when 10 characters show up in the buffer
     s:on("data", "\n", function(data)
       local txt = string.gsub(data, "[\r\n]", "")
