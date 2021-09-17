@@ -58,3 +58,25 @@ Note: no extra power source needed
 
 
 ![wire](./mpu6050.jpg)
+
+
+## BATTERY TO MCU
+
+
+3.7v 18650 for battery: 
+
+> MCU <-> BATTERY
+
+> VIN(5v) - POS
+
+> GND  - NEG
+
+ensure that not using vcc as it is designed for voltage that not higher than 3.3v(battery provide 3.7v), which doesn't provide sufficient current for board and external sensors. (Input vs Board voltage)
+
+More reference: 
+
+    https://techexplorations.com/guides/esp32/begin/power/
+
+
+
+![fullwired](./fullwired.jpg)    
