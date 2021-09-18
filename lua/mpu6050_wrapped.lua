@@ -1,7 +1,3 @@
- 
-
-id  = 0 -- always 0
-
 
 id  = 0 -- always 0
 scl = 7 -- set pin 6 as scl
@@ -113,8 +109,9 @@ function mpu6050_read()
     GyroY = GyroY/GyroScaleFactor
     GyroZ = GyroZ/GyroScaleFactor
     
-    return string.format("Ax:%.3g,Ay:%.3g,Az:%.3g,T:%.3g,Gx:%.3g,Gy:%.3g,Gz:%.3g",
-                        AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ)
+--    return string.format("Ax:%.3g,Ay:%.3g,Az:%.3g,T:%.3g,Gx:%.3g,Gy:%.3g,Gz:%.3g",
+--                        AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ)
+    return AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ;
 --    tmr.delay(100000)   -- 100ms timer delay
 --end
 end
