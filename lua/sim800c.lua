@@ -31,24 +31,33 @@ end
  
 if not configed then
     configed = true
-    writeCMD(s, 'AT+SAPBR=3,1,"Contype","GPRS"')
-    tmr.delay(100 * 1000)
-    writeCMD(s, 'AT+SAPBR=3,1,"APN","CMNET"')
-    tmr.delay(100 * 1000)
-    writeCMD(s, 'AT+SAPBR=1,1')
-    tmr.delay(100 * 1000)
-    writeCMD(s, 'AT+SAPBR=2,1')
-    tmr.delay(100 * 1000)
+ 
 end
 
+writeCMD(s, 'AT+SAPBR=3,1,"Contype","GPRS"')
+tmr.delay(20 * 1000)
+writeCMD(s, 'AT+SAPBR=3,1,"APN","CMNET"')
+tmr.delay(20 * 1000)
+writeCMD(s, 'AT+SAPBR=1,1')
+tmr.delay(20 * 1000)
+writeCMD(s, 'AT+SAPBR=2,1')
+tmr.delay(20 * 1000)
+    
 writeCMD(s, 'AT+HTTPINIT')
-tmr.delay(150 * 1000)
+tmr.delay(20 * 1000)
 
 writeCMD(s, 'AT+HTTPPARA="CID",1')
-tmr.delay(150 * 1000)
+tmr.delay(20 * 1000)
 
-local url = "nfs.staging.6edigital.com/api/dashboard?time="..tostring(tmr.now())
+local url = "nfs.staging.6edigital.com/api/dashboard?tuotime="..tostring(tmr.now())
 --url = "jsonplaceholder.typicode.com/todos/1"
 writeCMD(s, 'AT+HTTPPARA="URL","'..url..'"')
-tmr.delay(150 * 1000)
+tmr.delay(20 * 1000)
 writeCMD(s, 'AT+HTTPACTION=0')
+tmr.delay(20 * 1000)
+s:write(0x1a);  
+--tmr.delay(50 * 1000)
+--writeCMD(s, 'AT+HTTPTERM')
+--tmr.delay(50 * 1000)          
+--writeCMD(s, 'AT+SAPBR=0,1')
+--tmr.delay(50 * 1000)
