@@ -51,12 +51,20 @@ mytimer:start()
 
 
 
+called = false
+
 -- every second, check offset 
 mytimer_alert = tmr.create()
 mytimer_alert:register(1 *1000, tmr.ALARM_AUTO, function()    
     AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ = mpu6050_read()
-    Gap = INITIAL_ACCEL_X - AccelX
-    print(AccelX, INITIAL_ACCEL_X, Gap);
+    gap = INITIAL_ACCEL_X - AccelX
+    print(AccelX, INITIAL_ACCEL_X, gap);
+    if gap > 0.2 and called == false then
+        called = true
+        print("--------call");
+        -- call 
+        sim_call()
+    end 
 end)
 mytimer_alert:start()
 

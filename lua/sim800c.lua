@@ -34,6 +34,9 @@ if not configed then
  
 end
 
+
+ 
+tmr.delay(20000000);
 writeCMD(s, 'AT+SAPBR=3,1,"Contype","GPRS"')
 tmr.delay(20 * 1000)
 writeCMD(s, 'AT+SAPBR=3,1,"APN","CMNET"')
@@ -56,8 +59,12 @@ tmr.delay(20 * 1000)
 writeCMD(s, 'AT+HTTPACTION=0')
 tmr.delay(20 * 1000)
 s:write(0x1a);  
+
 --tmr.delay(50 * 1000)
 --writeCMD(s, 'AT+HTTPTERM')
 --tmr.delay(50 * 1000)          
 --writeCMD(s, 'AT+SAPBR=0,1')
 --tmr.delay(50 * 1000)
+
+
+

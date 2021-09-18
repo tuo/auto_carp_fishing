@@ -60,6 +60,10 @@ function sim_send(txt)
     tmr.delay(20 * 1000)
     s:write(0x1a);  
 end
+
+function sim_call()   
+    s:write('ATD18621325227;');  
+end
  
 
 --sim_setup()
