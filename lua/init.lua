@@ -36,15 +36,26 @@ counter = 0
 called = false
 shouldCall = false
 mytimer = tmr.create()
-mytimer:register(30 *1000, tmr.ALARM_AUTO, function()    
+
+callCount = 0
+mytimer:register(10 *1000, tmr.ALARM_AUTO, function()    
     AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ = mpu6050_read()
     data = string.format("Ax:%.3g,Ay:%.3g,Az:%.3g,T:%.3g,Gx:%.3g,Gy:%.3g,Gz:%.3g",
                         AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ)
     print("after 20"..data..tostring(shouldCall));
     if called == true and shouldCall == false then
         print("should call phone");        
-        shouldCall = true;     
-        sim_call()
+        if callCount % 2 == 0 then 
+            sim_call()
+        else
+            sim_hangoff()            
+            sim_send(counter..'-'..data..'-('..(string.format('%.2f', gap))..')'..tostring(shouldCall))    
+        end
+        if callCount == 4 then
+            shouldCall = true
+        end 
+        callCount = callCount+1
+        
         -- reset after 1 minutes
         
     else
@@ -68,7 +79,8 @@ mytimer_alert:register(1 *1000, tmr.ALARM_AUTO, function()
     gap = INITIAL_ACCEL_X - AccelX
     print("gap", AccelX, INITIAL_ACCEL_X, gap, math.abs(gap));
     if math.abs(gap) > 0.2 and called == false then
-        called = true        
+        called = true  
+        callCount = 0      
         print("--------call");        
     end 
 end)
