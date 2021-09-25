@@ -64,6 +64,10 @@ end
 function sim_call()   
     s:write('ATD18621325227;');  
 end
+
+function sim_hangoff()
+    writeCMD(s, 'ATH')    
+end
  
 
 --sim_setup()

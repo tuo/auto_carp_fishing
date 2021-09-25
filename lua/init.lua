@@ -36,17 +36,19 @@ counter = 0
 called = false
 shouldCall = false
 mytimer = tmr.create()
-mytimer:register(10 *1000, tmr.ALARM_AUTO, function()    
+mytimer:register(30 *1000, tmr.ALARM_AUTO, function()    
     AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ = mpu6050_read()
     data = string.format("Ax:%.3g,Ay:%.3g,Az:%.3g,T:%.3g,Gx:%.3g,Gy:%.3g,Gz:%.3g",
                         AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ)
-    print("after 20"..data);
+    print("after 20"..data..tostring(shouldCall));
     if called == true and shouldCall == false then
-        print("should call phone");
-        shouldCall = true;        
+        print("should call phone");        
+        shouldCall = true;     
         sim_call()
+        -- reset after 1 minutes
+        
     else
-        sim_send(counter..'-'..data)    
+        sim_send(counter..'-'..data..'-('..(string.format('%.2f', gap))..')'..tostring(shouldCall))    
     end 
     
     gpio.write(pin, gpio.HIGH)
@@ -59,19 +61,15 @@ mytimer:start()
 
 
 
-
-
-
 -- every second, check offset 
 mytimer_alert = tmr.create()
 mytimer_alert:register(1 *1000, tmr.ALARM_AUTO, function()    
     AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ = mpu6050_read()
     gap = INITIAL_ACCEL_X - AccelX
-    print(AccelX, INITIAL_ACCEL_X, gap);
-    if gap > 0.2 and called == false then
-        called = true
-        print("--------call");
-        
+    print("gap", AccelX, INITIAL_ACCEL_X, gap, math.abs(gap));
+    if math.abs(gap) > 0.2 and called == false then
+        called = true        
+        print("--------call");        
     end 
 end)
 mytimer_alert:start()
