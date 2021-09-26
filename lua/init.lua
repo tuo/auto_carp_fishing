@@ -44,14 +44,14 @@ mytimer:register(10 *1000, tmr.ALARM_AUTO, function()
                         AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ)
     print("after 20"..data..tostring(shouldCall));
     if called == true and shouldCall == false then
-        print("should call phone");        
-        if callCount % 2 == 0 then 
+        print("should call phone now, after 2.5 min and 5 min");        
+        if callCount == 0 or callCount == 5 or callCount == 15 then 
             sim_call()
         else
             sim_hangoff()            
             sim_send(counter..'-'..data..'-('..(string.format('%.2f', gap))..')'..tostring(shouldCall))    
         end
-        if callCount == 4 then
+        if callCount == 15 then
             shouldCall = true
         end 
         callCount = callCount+1

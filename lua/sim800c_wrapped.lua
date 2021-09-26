@@ -62,7 +62,8 @@ function sim_send(txt)
 end
 
 function sim_call()   
-    s:write('ATD18621325227;');  
+    --s:write('ATD18621325227;');      
+    writeCMD(s, 'ATD18621325227;')    
 end
 
 function sim_hangoff()
