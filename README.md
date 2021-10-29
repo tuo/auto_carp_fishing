@@ -1,3 +1,8 @@
+## Detect angle change when got fish and main line got pulled
+
+![basic_idea](https://user-images.githubusercontent.com/491610/139372693-1c085a1f-8e04-48de-b021-a3495de5184b.jpeg)
+
+
 ### SIM800C
 
 
