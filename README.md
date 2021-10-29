@@ -1,7 +1,17 @@
-## Detect angle change when got fish and main line got pulled
-![angle_change](https://user-images.githubusercontent.com/491610/139373867-5557d9cc-f9f4-4699-a4f8-ed123eacd6ba.jpg)
 
- 
+# A series of blog about how to auto carp fishing
+
+https://tuohuang.info/auto-fishing-part1.html, https://tuohuang.info/auto-fishing-part2.html, https://tuohuang.info/auto-fishing-part3.html
+
+![fish_trigger](https://user-images.githubusercontent.com/491610/139432502-909ce709-a30d-42e5-9df1-ce3318337564.gif)
+![angle_change](https://user-images.githubusercontent.com/491610/139432699-23f7e4e1-e5a6-44b8-844c-3134d2339a0e.jpg)
+
+![sketch_bank](https://user-images.githubusercontent.com/491610/139432670-1f740674-cd36-49f3-8c8e-b708626ad02a.jpg)
+![sketch_float](https://user-images.githubusercontent.com/491610/139432672-b0b66c22-7e23-4ba4-9d2a-6c7e7a98622a.jpg)
+
+
+## CORE TRIGGERING DEVICE
+
 ### SIM800C
 
 
