@@ -60,6 +60,7 @@ Note: no extra power source needed
 ![wire](./mpu6050.jpg)
 
 
+
 ## BATTERY TO MCU
 
 
@@ -73,10 +74,14 @@ Note: no extra power source needed
 
 ensure that not using vcc as it is designed for voltage that not higher than 3.3v(battery provide 3.7v), which doesn't provide sufficient current for board and external sensors. (Input vs Board voltage)
 
+![full_wire](https://user-images.githubusercontent.com/491610/139371492-a482bd26-48cc-409b-b9d1-400b274034b7.jpg)
+
+
 More reference: 
 
     https://techexplorations.com/guides/esp32/begin/power/
 
 
 
-![fullwired](./fullwired.jpg)    
+![fullwired](./fullwired.jpg)   
+![fullwired2](https://user-images.githubusercontent.com/491610/139371427-e9d4e5f7-3713-475e-b796-cfd569041387.jpg)
