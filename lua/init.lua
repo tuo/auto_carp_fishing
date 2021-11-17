@@ -44,10 +44,10 @@ mytimer:register(10 *1000, tmr.ALARM_AUTO, function()
         end 
         callCount = callCount+1
         -- reset
-        if callCount == 17 then
-            called = false            
-            callCount = 0
-        end 
+--        if callCount == 17 then
+--            called = false            
+--            callCount = 0
+--        end 
         
         
         -- reset after 1 minutes
@@ -68,8 +68,8 @@ mytimer:start()
 
 -- every milli second, check offset 
 mytimer_alert = tmr.create()
--- 40 millseconds
-mytimer_alert:register(40, tmr.ALARM_AUTO, function()    
+-- 100 millseconds
+mytimer_alert:register(100, tmr.ALARM_AUTO, function()    
     data = collison_read_if_collided()
     --print("collided: ", tostring(data), 'called', tostring(called));
     if data and called == false then
