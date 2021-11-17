@@ -8,6 +8,8 @@ end
 
 if not s then 
     print("\n"..tostring(tmr.now())..": initilized su\n");
+    -- 2, 3 for prev
+    -- 3, 2 for collision
     s = softuart.setup(9600, 3, 2)
     -- Set callback to run when 10 characters show up in the buffer
     s:on("data", "\n", function(data)
@@ -36,9 +38,7 @@ end
  
 if not configed then
     configed = true
- 
 end
-
 
 writeCMD(s, 'AT+SAPBR=3,1,"Contype","GPRS"')
 writeCMD(s, 'AT+SAPBR=3,1,"APN","CMNET"')

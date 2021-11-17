@@ -1,33 +1,23 @@
 dofile("sim800c_wrapped.lua")
-dofile("mpu6050_wrapped.lua")
+dofile("collison_wrapped.lua")
 
 pin=4 --D4
 
 gpio.mode(pin,gpio.OUTPUT)
 gpio.write(pin, gpio.LOW)
 
-tmr.delay(3 * 1000 * 1000) --delay 10 seconds
+tmr.delay(3 * 1000 * 1000) --delay 3 seconds
 
 sim_setup()
 
 gpio.write(pin, gpio.HIGH)
 
-tmr.delay(1000 * 1000)
-mpu6050_setup();
 
-tmr.delay(1000 * 1000)
+data = collison_read_if_collided()
+sim_send("init colided:"..tostring(data))
 
-AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ = mpu6050_read()
-
-INITIAL_ACCEL_X = AccelX
-
-data = string.format("Ax:%.3g,Ay:%.3g,Az:%.3g,T:%.3g,Gx:%.3g,Gy:%.3g,Gz:%.3g",
-                        AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ)
-
-sim_send("init:"..data)
-
-tmr.delay(1000 * 1000)
-print("all done, kick off loop", INITIAL_ACCEL_X);
+tmr.delay(1000 * 1000) -- 1 seconds
+print("all done, kick off loop");
 
 gpio.write(pin, gpio.LOW)
 
@@ -35,31 +25,35 @@ gpio.write(pin, gpio.LOW)
 counter = 0
 called = false
 shouldCall = false
+
 mytimer = tmr.create()
 
 callCount = 0
-mytimer:register(10 *1000, tmr.ALARM_AUTO, function()    
-    AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ = mpu6050_read()
-    data = string.format("Ax:%.3g,Ay:%.3g,Az:%.3g,T:%.3g,Gx:%.3g,Gy:%.3g,Gz:%.3g",
-                        AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ)
-    print("after 20"..data..tostring(shouldCall));
+mytimer:register(10 *1000, tmr.ALARM_AUTO, function()        
+    print("after 20"..tostring(data)..tostring(shouldCall));
     if called == true and shouldCall == false then
         print("should call phone now, after 2.5 min and 5 min");        
         if callCount == 0 or callCount == 5 or callCount == 15 then 
             sim_call()
         else
             sim_hangoff()            
-            sim_send(counter..'-'..data..'-('..(string.format('%.2f', gap))..')'..tostring(shouldCall))    
+            sim_send(counter..',collided='..tostring(data))    
         end
         if callCount == 15 then
-            shouldCall = true
+            shouldCall = true            
         end 
         callCount = callCount+1
+        -- reset
+        if callCount == 17 then
+            called = false            
+            callCount = 0
+        end 
+        
         
         -- reset after 1 minutes
         
     else
-        sim_send(counter..'-'..data..'-('..(string.format('%.2f', gap))..')'..tostring(shouldCall))    
+        sim_send(counter..',collided='..tostring(data))    
     end 
     
     gpio.write(pin, gpio.HIGH)
@@ -72,16 +66,15 @@ mytimer:start()
 
 
 
--- every second, check offset 
+-- every milli second, check offset 
 mytimer_alert = tmr.create()
-mytimer_alert:register(1 *1000, tmr.ALARM_AUTO, function()    
-    AccelX, AccelY, AccelZ, Temperature, GyroX, GyroY, GyroZ = mpu6050_read()
-    gap = INITIAL_ACCEL_X - AccelX
-    print("gap", AccelX, INITIAL_ACCEL_X, gap, math.abs(gap));
-    if math.abs(gap) > 0.2 and called == false then
+mytimer_alert:register(1, tmr.ALARM_AUTO, function()    
+    data = collison_read_if_collided()
+    print("collided: ", tostring(data), 'called', tostring(called));
+    if data and called == false then
         called = true  
         callCount = 0      
-        print("--------call");        
+        print("--------collided call");        
     end 
 end)
 mytimer_alert:start()
