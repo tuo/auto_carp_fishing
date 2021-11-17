@@ -36,3 +36,6 @@ sim800l start with row 21 on breadboard
 esp8266 - stat with row 1 
 
 both are left most
+
+
+###

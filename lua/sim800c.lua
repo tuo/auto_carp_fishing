@@ -25,6 +25,11 @@ if not s then
       end
    
     end)
+
+    writeCMD(s, 'AT+CPOS?')
+    writeCMD(s, 'AT+CPIN?')
+    tmr.delay(20 * 1000)
+
 else
   print("\n"..tostring(tmr.now())..": existed su\n");  
 end
@@ -34,17 +39,11 @@ if not configed then
  
 end
 
-writeCMD(s, 'AT+CPOS?')
-writeCMD(s, 'AT+CPIN?')
 
 writeCMD(s, 'AT+SAPBR=3,1,"Contype","GPRS"')
-tmr.delay(20 * 1000)
 writeCMD(s, 'AT+SAPBR=3,1,"APN","CMNET"')
-tmr.delay(20 * 1000)
 writeCMD(s, 'AT+SAPBR=1,1')
-tmr.delay(20 * 1000)
 writeCMD(s, 'AT+SAPBR=2,1')
-tmr.delay(20 * 1000)
     
 writeCMD(s, 'AT+HTTPINIT')
 tmr.delay(20 * 1000)
@@ -64,11 +63,11 @@ s:write(0x1a);
 --print("---------------call");
 --writeCMD(s, 'ATD18621325227;')
 
---tmr.delay(50 * 1000)
+--tmr.delay(20 * 1000)
 --writeCMD(s, 'AT+HTTPTERM')
---tmr.delay(50 * 1000)          
+--tmr.delay(20 * 1000)          
 --writeCMD(s, 'AT+SAPBR=0,1')
---tmr.delay(50 * 1000)
+--tmr.delay(20 * 1000)
 
 
 

@@ -24,6 +24,7 @@ NOTE: need extra separate power supply (e.g 18650 3.7V) to support peak current(
 
 Test: sending http get request every 20 seconds, half charged battery last like almost 2 days.
 
+![](./sim800_compare.png)
 
 ### MPU6050
 
