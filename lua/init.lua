@@ -37,7 +37,7 @@ mytimer:register(10 *1000, tmr.ALARM_AUTO, function()
             sim_call()
         else
             sim_hangoff()            
-            sim_send(counter..',collided='..tostring(data))    
+            sim_send(counter..',collided='..tostring(true))    
         end
         if callCount == 15 then
             shouldCall = true            
@@ -68,9 +68,10 @@ mytimer:start()
 
 -- every milli second, check offset 
 mytimer_alert = tmr.create()
-mytimer_alert:register(1, tmr.ALARM_AUTO, function()    
+-- 40 millseconds
+mytimer_alert:register(40, tmr.ALARM_AUTO, function()    
     data = collison_read_if_collided()
-    print("collided: ", tostring(data), 'called', tostring(called));
+    --print("collided: ", tostring(data), 'called', tostring(called));
     if data and called == false then
         called = true  
         callCount = 0      
