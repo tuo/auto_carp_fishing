@@ -34,7 +34,8 @@ if not configed then
  
 end
 
-
+writeCMD(s, 'AT+CPOS?')
+writeCMD(s, 'AT+CPIN?')
 
 writeCMD(s, 'AT+SAPBR=3,1,"Contype","GPRS"')
 tmr.delay(20 * 1000)
@@ -51,7 +52,7 @@ tmr.delay(20 * 1000)
 writeCMD(s, 'AT+HTTPPARA="CID",1')
 tmr.delay(20 * 1000)
 
-local url = "nfs.staging.6edigital.com/api/dashboard?tuotime="..tostring(tmr.now())
+local url = "nfs.staging.coherencedigital.com/api/dashboard?time="..tostring(tmr.now())
 --url = "jsonplaceholder.typicode.com/todos/1"
 writeCMD(s, 'AT+HTTPPARA="URL","'..url..'"')
 tmr.delay(20 * 1000)
@@ -59,9 +60,9 @@ writeCMD(s, 'AT+HTTPACTION=0')
 tmr.delay(20 * 1000)
 s:write(0x1a);  
 
-tmr.delay(20000 * 1000)
-print("---------------call");
-writeCMD(s, 'ATD18621325227;')
+--tmr.delay(20000 * 1000)
+--print("---------------call");
+--writeCMD(s, 'ATD18621325227;')
 
 --tmr.delay(50 * 1000)
 --writeCMD(s, 'AT+HTTPTERM')
