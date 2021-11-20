@@ -51,9 +51,10 @@ mytimer:register(10 *1000, tmr.ALARM_AUTO, function()
         
         
         -- reset after 1 minutes
-        
+        gpio.write(pin, gpio.LOW)
     else
-        sim_send(counter..',collided='..tostring(data))    
+        sim_send(counter..',collided='..tostring(data)) 
+        gpio.write(pin, gpio.HIGH)   
     end 
     
     gpio.write(pin, gpio.HIGH)
@@ -68,13 +69,13 @@ mytimer:start()
 
 -- every milli second, check offset 
 mytimer_alert = tmr.create()
--- 100 millseconds
-mytimer_alert:register(100, tmr.ALARM_AUTO, function()    
+-- 20 millseconds (best with 10 milli - hihger accuracy)
+mytimer_alert:register(20, tmr.ALARM_AUTO, function()    
     data = collison_read_if_collided()
     --print("collided: ", tostring(data), 'called', tostring(called));
     if data and called == false then
         called = true  
-        callCount = 0      
+        callCount = 0              
         print("--------collided call");        
     end 
 end)

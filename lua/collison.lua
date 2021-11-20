@@ -26,7 +26,7 @@ called = false
 mytimer = tmr.create()
 -- 10 millseconds
 idx = 0
-mytimer:register(100, tmr.ALARM_AUTO, function()    
+mytimer:register(20, tmr.ALARM_AUTO, function()    
     local val = gpio.read(pinInput)
     local data = val == gpio.LOW
 --    print(tostring(tmr.now()).." hey after 1 seconds") 
